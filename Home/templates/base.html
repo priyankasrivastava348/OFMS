@@ -1,0 +1,168 @@
+{% load static %}
+<!-- {{ status }} -->
+<head>
+  <link rel="shortcut icon" href="{% static 'logo.png'%}" />
+  <title>Welcome </title>
+</head>
+
+  <link rel="stylesheet" href="{% static 'bootstrap.min.css'%}" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<script src="{% static 'bootstrap.min.js'%}" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+ 
+<nav class="navbar navbar-expand-lg navbar-blue bg-light " style="background-color: #e3f2fd ">
+<a class="navbar-brand" href="http://localhost:8000/">
+
+    <img src="{% static 'logo.png'%}" width="30" height="30" class="d-inline-block align-top" alt="">
+    Welome to OFMS
+  </a>  
+
+<!-- <a class="navbar-brand" href="#">LitIndia</a> -->
+ <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>-->
+
+
+
+
+
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <!-- <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li> -->
+
+      {% block login %}
+      {% if status != 'login'%}
+
+      <li class="nav-item">
+        <a class="nav-link" href="http://localhost:8000/login/">login</a>
+      </li>
+      {% endif %}
+      {% endblock %}
+
+      {% block signup %}
+      {% if status != 'login'%}
+
+      <li class="nav-item">
+        <a class="nav-link" href="http://localhost:8000/signup/">signup</a>
+      </li>
+      {% endif %}
+      {% endblock %}
+      
+      {% block logout %}
+          {% if status == 'login'%}
+              <li class="nav-item">
+              <a class="nav-link" href="http://localhost:8000/logout/">logout</a>
+              </li>
+          {% endif %}
+      {% endblock %}
+      <li class="nav-item">
+        <a class="nav-link"  href="http://localhost:8000/contact/">contact</a>
+       </li>
+      <!-- <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Info
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+      info
+    </button>
+          <a class="dropdown-item" href="#">contact</a>
+          <a class="dropdown-item" href="#">course</a>
+          <a class="dropdown-item" href="#">facalty</a>
+        </div>
+      </li> -->
+
+    </ul>
+  </div>
+</nav>
+
+{% block myblock %}
+<style>
+body {
+  background-image: url("{% static 'x.jpg'%}");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  /*padding-bottom: 300px ; */
+}
+</style>
+<style type="text/css">
+  .add-on .input-group-btn > .btn {
+    /*height: 10;*/
+  border-left-width:0;
+  left:-2px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+/* stop the glowing blue shadow */
+.add-on .form-control:focus {
+ box-shadow:none;
+ -webkit-box-shadow:none; 
+ border-color:#cccccc; 
+}
+
+./*form-control{width:20%}
+.navbar-nav > li > a {
+  /*border-right: 1px solid #ddd;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  text-align: right;
+}
+.navbar-nav:last-child{ border-right:0}*/
+
+</style>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <!-- <h1 align="center"> Welcome to home application . . .</h1>  -->
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+
+
+    <!-- <img align="center" width = '100%' src="{% static 'x.jpg'%}" alt="logo"> <br> -->
+      
+      <br>
+      <br>
+       <br>
+      <br>
+      <br>
+       <br>
+       <br>
+      
+      
+      
+      
+      <form align = "center"  action="http://localhost:8000/hotels/" method="get">
+                                                                          <div class="form-group">
+                                                                              <style> 
+                                                                  input[type=text] {
+                                                                    width: 300px;
+                                                                    box-sizing: border-box;
+                                                                    border: 2px solid #ccc;
+                                                                    border-radius: 4px;
+                                                                    font-size: 16px;
+                                                                    background-color: white;
+                                                                    /*background-image: url("{% static 'searchicon.png'%}");*/
+
+                                                                    background-position: 10px 10px; 
+                                                                    background-repeat: no-repeat;
+                                                                    padding: 12px 20px 12px 40px;
+                                                                    -webkit-transition: width 0.4s ease-in-out;
+                                                                    transition: width 0.4s ease-in-out;
+                                                                    
+                                                                     
+                                                                    
+
+                                                                  }
+
+                                                                  input[type=text]:focus {
+                                                                    width: 500px;
+                                                                  }
+                                                                  </style>
+      <input type="text" name="address" placeholder="Enter location . . . ">
+
+      
+      </form>
+      
+    <!-- <img align="center" width = '100%' src="{% static 'y.jpg'%}" alt="logo"> -->
+
+
+{% endblock %}
+  <!-- <img align="center" width = '100%' src="{% static 'y.jpg'%}" alt="logo"> -->

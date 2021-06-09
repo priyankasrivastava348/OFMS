@@ -1,0 +1,100 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block myblock%}
+{%block login%}
+
+{%endblock%}
+{%block signup%}
+{%endblock%}
+ 
+
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+	<style type="text/css">
+		table {
+  background-color: #f6f6f4;
+  margin: 30px auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0px 0px 36px 15px rgba(0, 0, 0, 0.28);
+  
+}
+	</style>
+	<style type="text/css">
+	body{
+		background-color: #f0f8ff;
+		background-image: url({%static 'd.jpg'%});
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+	}
+	</style>
+	
+
+	<h1 align="center"> Thank you, {{ order.username }} </h1>
+	<h3 align="center">please wait i am requisting {{ hotel }}  . . . </h3>
+
+	<br>
+		
+	<table align="center" class="table" style="width: 70%">
+	<thead class="thead-dark">
+	<tr>
+		<th> Item Name </th>
+		<th> Item Price </th>
+		<th> Item Discount </th>
+		<th> Item Quantity</th>
+	</tr>
+	</thead>
+	{% for x in xorder %}
+		{% if x.3 != 0 %}
+		<tr>
+			<td> {{ x.0 }} </td>	
+			<td> {{ x.1 }} </td>	
+			<td> {{ x.2 }} </td>
+			<td> {{ x.3 }} </td>
+		</tr>
+		{% endif %}
+	{% endfor %}
+
+		<tr style="color: white; background-color : black ">
+			<td>
+			
+			</td>
+			<td>
+			
+			</td>
+			<td>
+				<b>Total Ammount : </b> 
+			</td>
+			<td>
+			 <b>{{ total }}</b>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<center>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("button").click (function(){
+    $.get("http://localhost:8000/getorderstatus/{{ order.id }}/",
+    {
+      orderid: {{ order.id }},
+    },
+    function( ret ){
+      	console . log ( ret  );
+      		
+      		alert ( ret . status ); 
+
+    });
+  });
+});
+</script>
+
+
+	<button  class="btn btn-primary" type="button" id = 'myButton'>
+  	<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+  	Please click me to get the status of your order  
+	</button>
+	</center>
+{%endblock%}

@@ -1,0 +1,168 @@
+{% extends 'base.html'%}
+
+{% block myblock %}
+
+{%block login%}
+{%endblock%}
+
+{%block signup%}
+{%endblock%}
+<script language="JavaScript" type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/jquery-ui-personalized-1.5.2.packed.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/sprinkle.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+	// setTimeout(location.reload.bind(location), 10000);
+	(function() {
+  var lastMove = Date.now();
+
+  document.onmousemove = function() {
+    lastMove = Date.now();
+  }
+
+  setInterval(function() {
+    var diff = Date.now() - lastMove;
+     console.log( 'Inactive for ' + diff + ' ms');
+    // if ( diff < 1000  ) console . log ('hihi');
+    if (diff > 1000) {
+     
+      document.getElementById ( 'activetime') . innerHTML = Math.floor( diff / 1000 ); 
+    }
+
+    if ( diff > 300000 ) location.reload();
+
+    console.log ( 'calling dynamic check order')
+		$.ajax({
+  			url: 'http://localhost:8000/checkneworder/',
+  			type: 'get',
+  			success: function(response){
+   				// Perform operation on the return value
+   				// alert(response);
+   				// var foo = document.getElementById("dynamic");
+   				// var child = foo.lastElementChild;  
+       //  		while (child) { 
+       //      		foo.removeChild(child); 
+       //      		child = foo.lastElementChild; 
+       //  		} 
+       			// var x = document.getElementById('tbody');
+       			// x . parentNode . removeChild ( x );
+       			console.log ( response.status);
+       			var markup = '';
+   				for ( rec in response.status) {
+   		// 			console . log  ( response.status[rec] );
+   		// 			var element = 
+   		// 			document.createElement("input");
+
+					// //Assign different attributes to the element.
+					// element.setAttribute("type", 'button');
+					// element.style.height = '50px';
+					// element.style.widht = '150px';
+					// // element.value = 'New Order ' + response.status[rec].id;
+					// element.onclick = "location.href='response.status[rec]['id']/'"
+					// element.setAttribute("value", response.status[rec]['id'] +"Hotel Address : " + response.status[rec]['from'] + "Delivery Address " + response.status[rec]['order_address']);
+					// element.setAttribute("onclick","location.href='"+response.status[rec]['id'] +"/getorder/'");
+					// // element.setAttribute("name", type);
+					// console . log ( element); 
+					// foo.appendChild ( element ); 
+					markup += "<tr><td>"+ response.status[rec]['id'] +"</td><td>"+ response.status[rec]['from'] +"</td><td>"+ response.status[rec]['order_address']  +"</td><td>" + 
+						'<input type="button" onclick = "location.href=' +"'"+response.status[rec]['id'] +'/getorder/' + "'"+'" value = "Take" name="">'
+					 +"</td></tr>";
+					 
+					 // markup = ''
+   				}
+   				// if ( markup != '' )
+   				document.getElementById('tbody').innerHTML = markup;
+
+  		}
+
+	}) () ;
+
+  }, 1000);
+
+
+	
+}());
+
+	
+</script>
+<style type="text/css">
+		table {
+  background-color: #f6f6f4;
+  margin: 30px auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  /*box-shadow: 0px 0px 36px 15px rgba(0, 0, 0, 0.28);*/
+}
+	</style>
+
+	<h1 align="center">Welcome {{ obj.name }}</h1>
+	<h4 align="center"> Phone Number : {{ obj.phoneno }}</h4>
+	<h6 align="center" style="color: blue">If you are not active for 5 minutes, then this page will be automatically refreshed.</h6>
+	<h6 align="center" id = 'x'><font color="red">Not active for : <font id = 'activetime'> 0  </font> Seconds.</font></h6>
+	
+	<h3 align="center" style="color: blue">Taken Order List</h3>
+	
+<table class="table" style="width: 70%; padding-top: -20%;" align="center">
+
+	<tr>
+		<th> Order Number </th>
+		<!-- <th> Hotel Address </th> -->
+	 	<th> Delivery Address </th>
+		<th> status </th>
+		<th> Update </th>
+	</tr>
+
+
+{% for rec in orders %}
+	<tr>
+		
+		<td> {{ rec.id }} </td>
+		<!-- <td> {{ rec.hoteladdress }}</td> -->
+		<td> {{ rec.order_address }} </td>
+	<form action="http://localhost:8000/deliveryboy/{{obj.id}}/{{rec.id}}/update/" method="get">
+		
+		<td>	<label for="{{rec.id}}">   </label>
+
+			{% if rec.hotel_status == 'orderonhandofdelvboy' or rec.hotel_status == 'On the Way' or rec.hotel_status == 'iod' or rec.hotel_status == 'Delivered'%}
+
+			<select name = 'selected' id="{{ rec.id }}" class="mdb-select md-form colorful-select dropdown-primary"  >
+			  <option value=""></option>
+			  <option value="orderonhandofdelvboy" {% if rec.hotel_status == 'orderonhandofdelvboy' %} selected="selected"{% endif %}>order on hand of delvboy</option>
+			  <option value="On the Way" {% if rec.hotel_status == 'On the Way' %} selected="selected"{% endif %}>On the Way</option>
+			  <option value="iod" {% if rec.hotel_status == 'iod' %} selected="selected"{% endif %}>Infront Of your Door</option>
+			  <option value="Delivered" {% if rec.hotel_status == 'Delivered' %} selected="selected"{% endif %}>Delivered</option>
+			{% else %}
+				<font> Please wait untill hotel not delivered order to you.</font>
+			{% endif %}  
+			</select>
+			
+			</td>
+
+	<td>			<input type="submit" value = 'update'></input> </td>
+
+	</form>
+	</tr>
+{% endfor %}
+
+</table>
+
+<h3 align="center" style="color: blue"> New Order list 
+<h6 align="center" style="color: red">When ever a new order will be taken automatically your table will be refreshed. Not required to orry.</h6>
+<div id = 'dynamic'>
+	<table class="table" style="width: 70%; padding-top: -20%;" align="center">
+
+		<tr>
+			<th> Order Number </th>
+		
+		 	<th> Hotel Address </th>
+			<th> Delivery Address </th>
+			<th> Action :  </th>
+		</tr>
+		<tbody id = 'tbody'>
+			
+		</tbody>
+	</table>
+	</div>
+
+{% endblock %}

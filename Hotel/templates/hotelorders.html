@@ -1,0 +1,98 @@
+{% extends 'base.html'%}
+
+{% block myblock %}
+
+{%block login%}
+{%endblock%}
+
+{%block signup%}
+{%endblock%}
+
+<script type="text/javascript">
+	// setTimeout(location.reload.bind(location), 10000);
+	(function() {
+  var lastMove = Date.now();
+
+  document.onmousemove = function() {
+    lastMove = Date.now();
+  }
+
+  setInterval(function() {
+    var diff = Date.now() - lastMove;
+    if (diff > 1000) {
+      console.log('Inactive for ' + diff + ' ms');
+      document.getElementById ( 'activetime') . innerHTML = Math.floor( diff / 1000 ); 
+    }
+
+    if ( diff > 60000 ) location.reload();
+  }, 1000);
+}());
+</script>
+<style type="text/css">
+		table {
+  background-color: #f6f6f4;
+  margin: 30px auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  /*box-shadow: 0px 0px 36px 15px rgba(0, 0, 0, 0.28);*/
+}
+	</style>
+
+	<h1 align="center">Welcome {{ hotel.hotel_name }}</h1>
+	<h4 align="center"> Address : {{ hotel.hotel_address }}</h4>
+	<h6 align="center" style="color: blue">If you are not active for 1 minute, then this page will be automatically refreshed to check new order.</h6>
+	<h6 align="center" id = 'x'><font color="red">Not active for : <font id = 'activetime'> 0  </font> Seconds.</font></h6>
+<table class="table" style="width: 70%; padding-top: -20%;" align="center">
+
+	<tr>
+		<th> Order Number </th>
+		<th> Items name and qty </th>
+	 
+		<th> status </th>
+		<th> Update </th>
+	</tr>
+
+
+{% for rec in data %}
+	<tr>
+		
+		<td> {{ rec.id }} </td>
+		<td>
+			<table width="100%">
+				<th>Item </th> <th> Quantity </th>
+		{% for x in rec.xlist %}
+			<tr><td> {{x.0}} </td><td> {{x.1}} </td></tr>
+		{% endfor %} </td>
+			</table>
+
+	<form action="http://localhost:8000/hotels/{{rec.hotel_id}}/orders/{{rec.id}}/update/" method="get">
+		
+		<td>	<label for="{{rec.id}}">   </label>
+
+			
+			<select name = 'selected' id="{{ rec.id }}" class="mdb-select md-form colorful-select dropdown-primary"  >
+			  <option value=""></option>
+			  <option value="cancel" style="color: red" {% if rec.hotel_status == 'cancel' %} selected="selected"{% endif %}>Cancel</option>
+			  <option value="accept" {% if rec.hotel_status == 'accept' %} selected="selected"{% endif %}>Accept</option>
+			  <option value="processed" {% if rec.hotel_status == 'processed' %} selected="selected"{% endif %}>processed</option>
+			  <option value="cooking" {% if rec.hotel_status == 'cooking' %} selected="selected"{% endif %}>Coocked</option>
+			  <option value="packed" {% if rec.hotel_status == 'packed' %} selected="selected"{% endif %}>Packed</option>
+			  
+			  <option value="orderonhandofdelvboy" {% if rec.hotel_status == 'orderonhandofdelvboy' %} selected="selected"{% endif %}>order on hand of delvboy</option>
+
+			  <option disabled value="On the Way" {% if rec.hotel_status == 'On the Way' %} selected="selected"{% endif %}>On the Way</option>
+			  <option disabled value="iod" {% if rec.hotel_status == 'iod' %} selected="selected"{% endif %}>Infront Of your Door</option>
+			  <option disabled value="Delivered" {% if rec.hotel_status == 'Delivered' %} selected="selected"{% endif %}>Delivered</option>
+			</select>
+
+			
+			</td>
+
+	<td>			<input type="submit" value = 'update'></input> </td>
+
+	</form>
+	</tr>
+{% endfor %}
+
+</table>
+{% endblock %}

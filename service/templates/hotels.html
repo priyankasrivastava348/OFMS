@@ -1,0 +1,29 @@
+{% extends 'base.html'%}
+
+
+{% block myblock %}
+
+ 
+
+<div class="row">
+{% for hotel in hotels %}
+	<div align="center" class="column" style="width: 25%;/* background-color: #f6f6f4;*/ padding: 10px">
+	<style type="text/css">
+	body{
+		background-color: #f0f8ff;
+		
+	}
+	</style>
+    
+  
+	<a href="http://localhost:8000/hotels/{{hotel.id}}" class="list-group-item"> 
+			<img align="center" width="300" height="200" src="{{ hotel.hoel_image }}" alt = 'not found'> 
+			<h3>{{ hotel.hotel_name }} </h3>
+			Address : {{ hotel.hotel_address }} <br>
+			Retings : {{ hotel.hotel_reting }} <br>
+			Contact : {{ hotel.hotel_phone_number }}
+	</a>
+	</div>
+{% endfor %}
+</div>
+{% endblock %}

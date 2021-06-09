@@ -1,0 +1,77 @@
+{% extends 'base.html'%}
+{%load static%}
+
+{% block myblock %}
+<style type="text/css">
+ input[type=number] {
+                                                                    width: 50%;
+                                                                    box-sizing: border-box;
+                                                                    border: 2px solid white;
+                                                                    border-radius: 12px;
+                                                                    font-size: 16px;
+                                                                    background-color: white;
+
+                                                                   
+
+                                                                    background-position: 10px 10px; 
+                                                                    background-repeat: no-repeat;
+                                                                    padding: 12px 20px 12px 40px;
+                                                                    -webkit-transition: width 0.4s ease-in-out;
+                                                                    transition: width 0.4s ease-in-out;
+                                                                    
+                                                                     
+                                                                    
+
+                                                                  }
+	input[type=number]:focus {
+                                                                    
+                                                                    width: 70%;
+                                                                  }
+</style>
+<form action="{%url 'placeorder'%}">
+<div class="row">
+
+{% for item in items %}
+
+<div align="center" class="column" style="width: 25%;/*background-color: #87ceeb;*/padding: 10px" >
+
+	<a href="http://localhost:8000/hotels/item/{{item.id}}" class="list-group-item">  
+			<img width="300" height="200"  src="{{ item.item_image }}" alt = 'not found'>
+
+			<h4>{{ item.item_name }} </h4>
+			Price : {{ item.item_price }} <br>
+			Discount : {{ item.item_discount }} <br>
+			
+	</a>
+	<br>
+	<input type="test" hidden ="hidden" name = 'item_name' value = '{{ item.id }}'></input>
+	<input type="number" name = 'qt'   min="0" placeholder="Quantity.." >  </input>
+
+	</div>
+{% endfor %}
+</div>	
+<style>
+body{
+    background-color: #87ceeb
+}
+.button {
+  background-color: #008cba;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.button {border-radius: 12px;}
+</style>
+<center><button class="button" >SUBMIT</button></center>
+
+
+<!--<center><input type="submit"  ></input></center>-->
+</form>
+
+{% endblock %}

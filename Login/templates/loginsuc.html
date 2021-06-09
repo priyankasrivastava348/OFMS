@@ -1,0 +1,46 @@
+{% extends 'base.html'%}
+{%load static%}
+{% block login %}
+{% endblock %}
+{% block signup %}
+{% endblock %}
+
+{% block logout %}
+<li class="nav-item">
+        <a class="nav-link" href="http://localhost:8000/logout/">logout</a>
+      </li>
+{% endblock %}
+
+{% block myblock %}
+
+</style>
+<h1 align="center" > Welcome {{ username }} </h1>
+<h4 align="center"> Your list of orders </h4>
+	<h3>  </h3>
+	<!-- {{ orders }} -->
+	<table align="center" class="table" style="width: 70%">
+	<thead class="thead-dark">
+	<tr>
+		<th> Order Date </th>
+		<th> Order ID  </th>
+		<th> Action </th>
+	</tr>
+
+	{% for order in orders %}
+		<tr>
+		<td>{{ order.order_date  }} </td><td>{{ order.id }}</td>
+		<td> <button onclick="window.open('http://localhost:8000/orderstatus/{{order.id}}/')"> Get Details</button>
+		</tr>
+	{% endfor %}
+</thead>
+</table>
+<style type="text/css">
+	body{
+		background-color: #efdecd;
+		background-image: url({%static 'w.jpg'%});
+		background-size: 100% 120%;
+		
+	}
+
+	
+{% endblock %}
